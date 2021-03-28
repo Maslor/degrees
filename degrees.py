@@ -92,7 +92,7 @@ def shortest_path(source, target):
     If no possible path, returns None.
     """
 
-    initialPerson = Node(source, None, neighbors_for_person(source));
+    initialPerson = Node(source, None, neighbors_for_person(source))
 
     if len(initialPerson.action) < 1:
         return None
@@ -115,6 +115,8 @@ def shortest_path(source, target):
             for (movie_id, person_id) in node.action:
                 queueFrontier.add(Node(person_id, Node(node.state, node.parent, (movie_id, person_id)),
                                        neighbors_for_person(person_id)))
+                if person_id == target:
+                    break
 
         path = []
         while True:
