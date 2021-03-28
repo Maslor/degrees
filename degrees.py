@@ -99,25 +99,28 @@ def shortest_path(source, target):
     else:
         queueFrontier = QueueFrontier()
         queueFrontier.add(initialPerson)
+        exploredIds = []
 
         while True:
             if queueFrontier.empty():
                 break
             node = queueFrontier.remove()
+            if node.state not in exploredIds:
+                exploredIds.append(node.state)
+            else:
+                continue
             if node.state == target:
-                print("Got to the target")
                 targetPerson = node.parent
                 break
             for (movie_id, person_id) in node.action:
-                queueFrontier.add(Node(person_id, Node(node.state, node.parent, (movie_id, person_id)), neighbors_for_person(person_id)))
+                queueFrontier.add(Node(person_id, Node(node.state, node.parent, (movie_id, person_id)),
+                                       neighbors_for_person(person_id)))
 
         path = []
         while True:
             parent = targetPerson.parent
-            if (parent == None):
-                if len(path) < 1:
-                    path.append(targetPerson.action)
-                    break
+            if parent == None:
+                path.append(targetPerson.action)
                 break
             path.append(targetPerson.action)
             targetPerson = parent
